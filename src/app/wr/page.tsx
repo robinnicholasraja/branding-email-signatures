@@ -41,10 +41,11 @@ const WR = () => {
 
   return (
     <section>
-      <div className="container mx-auto p-8 bg-gray-100 rounded-lg">
-        <h2 className="text-3xl font-bold mb-4 text-gray-800">Signature Form</h2>
-
-        <form className="space-y-4">
+      <div className="container">
+        <div className="bg-gray-100 p-8 rounded-lg">
+        <div className="flex justify-between gap-10">
+        <form className="space-y-4 w-1/2">
+          <h2 className="text-3xl font-bold mb-4 text-gray-800">Signature Form</h2>
           <div className="flex flex-col">
             <label className="text-gray-500">Image URL:</label>
             <input
@@ -173,7 +174,7 @@ const WR = () => {
 
         </form>
 
-        <div className="mt-6">
+        <div className="w-1/2">
           <h2 className="text-3xl font-bold mb-4 text-gray-800">Signature Preview</h2>
           <iframe
             title="Signature Preview"
@@ -183,11 +184,14 @@ const WR = () => {
           ></iframe>
           <button
             onClick={handleDownload}
-            className="bg-blue-500 text-white px-4 py-2 rounded mt-4 hover:bg-blue-600"
+            className="bg-sky-500 hover:bg-sky-700 px-5 py-2 text-sm leading-5 rounded-full font-semibold mt-4 text-white"
           >
             Download Signature
           </button>
         </div>
+        </div>
+        </div>
+        
       </div>
     </section>
   );
