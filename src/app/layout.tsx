@@ -18,10 +18,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-      <section className="py-10">
-        <Header />
-      </section>
-      {children}
+        <section className="py-10">
+          <Header />
+        </section>
+        {children}
       </body>
     </html>
   );

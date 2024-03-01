@@ -1,18 +1,18 @@
 type Details = {
-  name: string,
-  position: string,
-  email: string,
-  phone: string,
-  bookingLink: string,
-  imageUrl: string,
-  source: string,
-}
+  name: string;
+  position: string;
+  email: string;
+  phone: string;
+  bookingLink: string;
+  imageUrl: string;
+  source: string;
+};
 
 const formatPhoneNumber = (phoneNumber: string) => {
   return phoneNumber.replace(/-/g, "");
 };
 
-const getReviewContent = (source:string) => {
+const getReviewContent = (source: string) => {
   switch (source) {
     case "trustpilot":
       return `<p style=margin:0;font-family:Inter,Arial,Helvetica,sans-serif;font-size:9px;line-height:11px;color:#616666>
@@ -47,13 +47,21 @@ const getReviewContent = (source:string) => {
   }
 };
 
-const WellReceivedSignatures = ({ name, position, email, phone, bookingLink, imageUrl, source }: Details) => {
+const WellReceivedSignatures = ({
+  name,
+  position,
+  email,
+  phone,
+  bookingLink,
+  imageUrl,
+  source,
+}: Details) => {
   const reviewContent = getReviewContent(source);
   let image;
-  if(source === 'wecare') {
-    image = `<img src="https://storage.googleapis.com/email_signatures/wellreceived/images/we-care-logo.png" width="71" height="14" style="width: 71px; height: 14px;">`
-  }else{
-    image = `<img alt="WellReceived logo" height=30 src=https://storage.googleapis.com/email_signatures/wellreceived/images/wr-logo.png style=font-size:16px;color:#0b4751;width:72px;height:30px width=72>`
+  if (source === "wecare") {
+    image = `<img src="https://storage.googleapis.com/email_signatures/wellreceived/images/we-care-logo.png" width="71" height="14" style="width: 71px; height: 14px;">`;
+  } else {
+    image = `<img alt="WellReceived logo" height=30 src=https://storage.googleapis.com/email_signatures/wellreceived/images/wr-logo.png style=font-size:16px;color:#0b4751;width:72px;height:30px width=72>`;
   }
 
   const formattedPhone = formatPhoneNumber(phone);
@@ -64,25 +72,36 @@ const WellReceivedSignatures = ({ name, position, email, phone, bookingLink, ima
       <tr>
         <td style="padding:30px 0 30px 30px;width:72px;font-size:0">
           <img alt="${name}" height=72 src="${imageUrl}" style=font-size:16px;color:#0b4751;width:72px;height:72px;display:inline-block width=72>
-          <a href=https://www.wellreceived.com/${source === 'wecare' ? "why/we-care" : ""} style=box-sizing:border-box;display:inline-block;color:#0b4751;font-size:16px;margin-top:64px target=_blank>
+          <a href=https://www.wellreceived.com/${
+            source === "wecare" ? "why/we-care" : ""
+          } style=box-sizing:border-box;display:inline-block;color:#0b4751;font-size:16px;margin-top:64px target=_blank>
             ${image}
           </a>
         </td>
         <td style="padding:27px 30px 30px 64px">
           <p style="font-family:Inter,Arial,Helvetica,sans-serif;font-weight:500;color:#0b4751;font-size:24px;margin:0 0 2px;line-height:28px;letter-spacing:-1px">${name}</p>
           <p style="font-family:Inter,Arial,Helvetica,sans-serif;color:#0b4751;font-size:10px;margin:0 0 20px 0;font-weight:500;line-height:12px">${position}</p>
-          ${email && `<p style="margin:0 0 2px">
+          ${
+            email &&
+            `<p style="margin:0 0 2px">
           <img alt="Mail icon" height=18 src=https://storage.googleapis.com/email_signatures/wellreceived/images/mail-icon.png style=width:18px;height:18px;margin-right:6px;font-size:16px;color:#0b4751;vertical-align:middle width=18>
           <a href=mailto:${email} style=font-family:Inter,Arial,Helvetica,sans-serif;color:#616666;font-size:12px;font-weight:500;line-height:20px;cursor:pointer;letter-spacing:-.12px;text-decoration-line:underline>${email}</a>
-          </p>`}
-          ${phone && `<p style="margin:0 0 2px">
+          </p>`
+          }
+          ${
+            phone &&
+            `<p style="margin:0 0 2px">
           <img alt="Call icon" height=18 src=https://storage.googleapis.com/email_signatures/wellreceived/images/call-icon.png style=width:18px;height:18px;margin-right:6px;font-size:16px;color:#0b4751;vertical-align:middle width=18>
           <a href=tel:+${formattedPhone} style=font-family:Inter,Arial,Helvetica,sans-serif;color:#616666;font-size:12px;font-weight:500;line-height:20px;cursor:pointer;letter-spacing:-.12px;text-decoration-line:underline target=_blank>${phone}</a>
-        </p>`}
-          ${bookingLink && `<p style="margin:0 0 30px">
+        </p>`
+          }
+          ${
+            bookingLink &&
+            `<p style="margin:0 0 30px">
           <img alt="Booking icon" height=18 src=https://storage.googleapis.com/email_signatures/wellreceived/images/calendar-icon.png style=width:18px;height:18px;margin-right:6px;font-size:16px;color:#0b4751;vertical-align:middle width=18>
           <a href=${bookingLink} style=font-family:Inter,Arial,Helvetica,sans-serif;color:#616666;font-size:12px;font-weight:500;line-height:20px;cursor:pointer;letter-spacing:-.12px;text-decoration-line:underline target=_blank>Book Appointment</a>
-        </p>`}
+        </p>`
+          }
           ${reviewContent}
         </td>
       </tr>
@@ -92,6 +111,3 @@ const WellReceivedSignatures = ({ name, position, email, phone, bookingLink, ima
 };
 
 export default WellReceivedSignatures;
-
-
-
