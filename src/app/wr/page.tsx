@@ -7,10 +7,10 @@ const WR = () => {
     name: "Shanna Ross",
     position: "Lead Account Executive",
     email: "shanna@wellreceived.com",
-    phone: "800-800-4449",
+    phone: "1-800-800-4449",
     bookingLink: "https://shannawellreceived.setmore.com/",
     imageUrl:
-      "https://assets.wellreceived.com/wellreceived/mailtemplates/images/shanna-ross@2x.png",
+      "https://storage.googleapis.com/email_signatures/wellreceived/images/wr-hand-profile.png",
     source: "trustpilot",
   });
 
@@ -100,6 +100,7 @@ const WR = () => {
                   value={signatureData.phone}
                   onChange={handleInputChange}
                   className="p-2 border shadow-sm rounded"
+                  placeholder="1-800-800-4449"
                 />
               </div>
 
