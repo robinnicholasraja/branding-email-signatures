@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, ChangeEvent } from "react";
 import SignatureWithTrustPilot from "./WellReceivedSignatures";
+import { CodeBlock } from "./CodeBlock";
 
 const WR = () => {
   const [signatureData, setSignatureData] = useState({
@@ -13,6 +14,9 @@ const WR = () => {
       "https://storage.googleapis.com/email_signatures/wellreceived/images/wr-hand-profile.png",
     source: "trustpilot",
   });
+  const [showCodeBlock, setShowCodeBlock] = useState<Boolean>(false);
+
+  const content = SignatureWithTrustPilot(signatureData);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -38,6 +42,10 @@ const WR = () => {
     a.click();
 
     URL.revokeObjectURL(url);
+  };
+
+  const handleShowCodeBlock = () => {
+    setShowCodeBlock(!showCodeBlock);
   };
 
   return (
@@ -183,16 +191,27 @@ const WR = () => {
               </h2>
               <iframe
                 title="Signature Preview"
-                srcDoc={SignatureWithTrustPilot(signatureData)}
+                srcDoc={content}
                 width="100%"
                 height="300"
               ></iframe>
-              <button
-                onClick={handleDownload}
-                className="bg-sky-500 hover:bg-sky-700 px-5 py-2 text-sm leading-5 rounded-full font-semibold mt-4 text-white"
-              >
-                Download Signature
-              </button>
+              <div className="flex items-center justify-start gap-8">
+                <button
+                  onClick={handleDownload}
+                  className="bg-sky-500 hover:bg-sky-700 px-5 py-2 text-sm leading-5 rounded-full font-semibold mt-4 text-white"
+                >
+                  Download Signature
+                </button>
+                <button
+                  onClick={handleShowCodeBlock}
+                  className="bg-sky-500 hover:bg-sky-700 px-5 py-2 text-sm leading-5 rounded-full font-semibold mt-4 text-white"
+                >
+                  {showCodeBlock ? "Hide" : "Show"} codeblock
+                </button>
+              </div>
+              <div className="mt-5">
+                {showCodeBlock && <CodeBlock markup={content} />}
+              </div>
             </div>
           </div>
         </div>

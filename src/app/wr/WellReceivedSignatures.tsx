@@ -37,7 +37,7 @@ const WellReceivedSignatures = ({
   bookingLink,
   imageUrl,
   source,
-}: Details) => {
+}: Details):string => {
   const reviewContent = getReviewContent(source);
   let image;
   if (source === "wecare") {
