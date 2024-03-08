@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,10 +18,39 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <section className="py-10">
-          <Header />
-        </section>
-        {children}
+        <nav className="flex flex-wrap gap-3 justify-center py-4 bg-slate-800">
+          <Link
+            href="/wr"
+            className="bg-sky-500 hover:bg-sky-700 px-5 py-2 text-sm leading-5 rounded-full font-semibold text-white"
+          >
+            Wellreceived
+          </Link>
+          <Link
+            href="/sfca"
+            className="bg-sky-500 hover:bg-sky-700 px-5 py-2 text-sm leading-5 rounded-full font-semibold text-white"
+          >
+            Serviceforge CA
+          </Link>
+          <Link
+            href="#"
+            className="bg-gray-500 hover:bg-gray-700 px-5 py-2 text-sm leading-5 rounded-full font-semibold text-white"
+          >
+            Answerconnect US - WIP 🛠️
+          </Link>
+          <Link
+            href="#"
+            className="bg-gray-500 hover:bg-gray-700 px-5 py-2 text-sm leading-5 rounded-full font-semibold text-white"
+          >
+            Answerconnect UK - WIP 🛠️
+          </Link>
+          <Link
+            href="#"
+            className="bg-gray-500 hover:bg-gray-700 px-5 py-2 text-sm leading-5 rounded-full font-semibold text-white"
+          >
+            Answerforce US - WIP 🛠️
+          </Link>
+        </nav>
+        <main>{children}</main>
       </body>
     </html>
   );
