@@ -1,218 +1,51 @@
 "use client";
-import React, { useState, ChangeEvent } from "react";
+import React, { useEffect } from "react";
 import SignatureWithTrustPilot from "./WellReceivedSignatures";
-import { CodeBlock } from "./CodeBlock";
+import Form from "@/app/(components)/Form";
+import { initialData, useSignatureStore } from "@/store/store";
+import { WRInputs } from "@/FormFields/WR";
+import SignaturePreview from "../(components)/SignaturePreview";
+import RadioInputList from "../(components)/RadioInputList";
 
 const WR = () => {
-  const [signatureData, setSignatureData] = useState({
-    name: "Shanna Ross",
-    position: "Lead Account Executive",
-    email: "shanna@wellreceived.com",
-    phone: "1-800-800-4449",
-    bookingLink: "https://shannawellreceived.setmore.com/",
-    imageUrl:
-      "https://storage.googleapis.com/email_signatures/wellreceived/images/wr-hand-profile.png",
-    source: "trustpilot",
-  });
-  const [showCodeBlock, setShowCodeBlock] = useState<Boolean>(false);
+  const { data, setData } = useSignatureStore((state) => state);
 
-  const content = SignatureWithTrustPilot(signatureData);
+  useEffect(() => {
+    setData(initialData["wr"]);
+  }, []);
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  const content = SignatureWithTrustPilot(data);
 
-    if (name === "phone" && value !== "" && !/^[\d-]+$/.test(value)) {
-      return;
-    }
-
-    setSignatureData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleDownload = () => {
-    const htmlContent = SignatureWithTrustPilot(signatureData);
-    const blob = new Blob([htmlContent], { type: "text/html" });
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "signature.html";
-    a.click();
-
-    URL.revokeObjectURL(url);
-  };
-
-  const handleShowCodeBlock = () => {
-    setShowCodeBlock(!showCodeBlock);
-  };
+  const sourceTypes = [
+    { label: "Trustpilot", value: "trustpilot" },
+    { label: "UpCity", value: "upcity" },
+    { label: "Google", value: "google" },
+    { label: "Referral Credit", value: "referral" },
+    { label: "We Care", value: "wecare" },
+  ];
 
   return (
     <section>
-      <div className="container">
+      <div className="container mx-auto py-10">
         <div className="bg-gray-100 p-8 rounded-lg">
+          <h1 className="mb-8 text-2xl">WellReceived Signature Form</h1>
           <div className="flex justify-between gap-10">
-            <form className="space-y-4 w-1/2">
-              <h2 className="text-3xl font-bold mb-4 text-gray-800">
-                Signature Form
-              </h2>
-              <div className="flex flex-col">
-                <label className="text-gray-500">Image URL:</label>
-                <input
-                  type="text"
-                  name="imageUrl"
-                  value={signatureData.imageUrl}
-                  onChange={handleInputChange}
-                  className="p-2 border shadow-sm rounded"
-                />
-              </div>
-              <div className="flex flex-col">
-                <label className="text-gray-500">Name:</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={signatureData.name}
-                  onChange={handleInputChange}
-                  className="p-2 border shadow-sm rounded"
-                />
-              </div>
-
-              <div className="flex flex-col">
-                <label className="text-gray-500">Position:</label>
-                <input
-                  type="text"
-                  name="position"
-                  value={signatureData.position}
-                  onChange={handleInputChange}
-                  className="p-2 border shadow-sm rounded"
-                />
-              </div>
-
-              <div className="flex flex-col">
-                <label className="text-gray-500">Email:</label>
-                <input
-                  type="text"
-                  name="email"
-                  value={signatureData.email}
-                  onChange={handleInputChange}
-                  className="p-2 border shadow-sm rounded"
-                />
-              </div>
-
-              <div className="flex flex-col">
-                <label className="text-gray-500">Phone:</label>
-                <input
-                  type="text"
-                  name="phone"
-                  value={signatureData.phone}
-                  onChange={handleInputChange}
-                  className="p-2 border shadow-sm rounded"
-                  placeholder="1-800-800-4449"
-                />
-              </div>
-
-              <div className="flex flex-col">
-                <label className="text-gray-500">Booking Link:</label>
-                <input
-                  type="text"
-                  name="bookingLink"
-                  value={signatureData.bookingLink}
-                  onChange={handleInputChange}
-                  className="p-2 border shadow-sm rounded"
-                />
-              </div>
-
-              <div className="flex flex-col">
-                <label className="text-gray-500">Source:</label>
-                <div className="flex space-x-4">
-                  <label>
-                    <input
-                      type="radio"
-                      className="mr-1"
-                      name="source"
-                      value="trustpilot"
-                      checked={signatureData.source === "trustpilot"}
-                      onChange={handleInputChange}
-                    />
-                    Trustpilot
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      className="mr-1"
-                      name="source"
-                      value="upcity"
-                      checked={signatureData.source === "upcity"}
-                      onChange={handleInputChange}
-                    />
-                    UpCity
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      className="mr-1"
-                      name="source"
-                      value="google"
-                      checked={signatureData.source === "google"}
-                      onChange={handleInputChange}
-                    />
-                    Google
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      className="mr-1"
-                      name="source"
-                      value="referral"
-                      checked={signatureData.source === "referral"}
-                      onChange={handleInputChange}
-                    />
-                    Referral Credit
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      className="mr-1"
-                      name="source"
-                      value="wecare"
-                      checked={signatureData.source === "wecare"}
-                      onChange={handleInputChange}
-                    />
-                    We Care
-                  </label>
-                </div>
-              </div>
-            </form>
-
             <div className="w-1/2">
-              <h2 className="text-3xl font-bold mb-4 text-gray-800">
-                Signature Preview
-              </h2>
-              <iframe
-                title="Signature Preview"
-                srcDoc={content}
-                width="100%"
-                height="300"
-              ></iframe>
-              <div className="flex items-center justify-start gap-8">
-                <button
-                  onClick={handleDownload}
-                  className="bg-sky-500 hover:bg-sky-700 px-5 py-2 text-sm leading-5 rounded-full font-semibold mt-4 text-white"
-                >
-                  Download Signature
-                </button>
-                <button
-                  onClick={handleShowCodeBlock}
-                  className="bg-sky-500 hover:bg-sky-700 px-5 py-2 text-sm leading-5 rounded-full font-semibold mt-4 text-white"
-                >
-                  {showCodeBlock ? "Hide" : "Show"} codeblock
-                </button>
-              </div>
-              <div className="mt-5">
-                {showCodeBlock && <CodeBlock markup={content} />}
-              </div>
+              <Form
+                content={content}
+                inputFields={WRInputs}
+                defaultData={initialData["wr"]}
+              />
+              <RadioInputList
+                name="source"
+                label="Source"
+                data={data}
+                setData={setData}
+                sourceTypes={sourceTypes}
+              />
             </div>
+
+            <SignaturePreview content={content} />
           </div>
         </div>
       </div>

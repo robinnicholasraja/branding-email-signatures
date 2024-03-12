@@ -1,6 +1,6 @@
 import { InputsTypes } from "@/store/types";
 
-export const SFCAInputs: InputsTypes[] = [
+export const WRInputs: InputsTypes[] = [
   {
     label: "Username",
     type: "text",

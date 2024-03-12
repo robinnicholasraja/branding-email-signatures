@@ -1,6 +1,3 @@
-import Form from "@/app/sfca/(components)/Form";
-import Link from "next/link";
-
 export default function Home() {
   return (
     <main>

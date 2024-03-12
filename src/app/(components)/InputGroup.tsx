@@ -1,4 +1,4 @@
-import { InputGroupTypes } from "@/types";
+import { InputGroupTypes } from "@/store/types";
 
 const InputGroup = ({
   label,

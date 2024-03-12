@@ -1,12 +1,4 @@
-type Details = {
-  name: string;
-  position: string;
-  email: string;
-  phone: string;
-  bookingLink?: string;
-  imageUrl: string;
-  source: string;
-};
+import { Data } from "@/store/types";
 
 const formatPhoneNumber = (phoneNumber: string) => {
   return phoneNumber.replace(/-/g, "");
@@ -35,9 +27,10 @@ const WellReceivedSignatures = ({
   email,
   phone,
   bookingLink,
-  imageUrl,
+  imageName,
+  imageAlt,
   source,
-}: Details):string => {
+}: Data): string => {
   const reviewContent = getReviewContent(source);
   let image;
   if (source === "wecare") {
@@ -49,7 +42,7 @@ const WellReceivedSignatures = ({
   const formattedPhone = formatPhoneNumber(phone);
 
   return `<html><head>
-  <title>${name} - WellReceived</title><meta charset="UTF-8"></head><body style="font-family:'Inter', Arial, Helvetica, sans-serif; margin:0px; padding:0px; background:#FFFFFF;-webkit-font-smoothing: antialiased;" data-new-gr-c-s-check-loaded="14.1157.0" data-gr-ext-installed=""><table bgcolor=#F9FAFB border=0 cellpadding=0 cellspacing=0 style=font-family:Inter,Arial,Helvetica,sans-serif;background-color:#f9fafb;width:450px;min-width:450px;max-width:450px;margin:0;border-radius:40px;box-sizing:border-box;border-collapse:collapse><tr><td valign="top" style="padding:30px 0 30px 30px;width:72px;font-size:0"><img alt="${name}" height=72 src="${imageUrl}" style=font-size:16px;color:#0b4751;width:72px;height:72px;display:inline-block width=72><a href=https://www.wellreceived.com/${
+  <title>${name} - WellReceived</title><meta charset="UTF-8"></head><body style="font-family:'Inter', Arial, Helvetica, sans-serif; margin:0px; padding:0px; background:#FFFFFF;-webkit-font-smoothing: antialiased;" data-new-gr-c-s-check-loaded="14.1157.0" data-gr-ext-installed=""><table bgcolor=#F9FAFB border=0 cellpadding=0 cellspacing=0 style=font-family:Inter,Arial,Helvetica,sans-serif;background-color:#f9fafb;width:450px;min-width:450px;max-width:450px;margin:0;border-radius:40px;box-sizing:border-box;border-collapse:collapse><tr><td valign="top" style="padding:30px 0 30px 30px;width:72px;font-size:0"><img alt="${imageAlt}" height=72 src="https://storage.googleapis.com/email_signatures/wellreceived/images/${imageName}.png" style=font-size:16px;color:#0b4751;width:72px;height:72px;display:inline-block width=72><a href=https://www.wellreceived.com/${
     source === "wecare" ? "why/we-care" : ""
   } style=box-sizing:border-box;display:inline-block;color:#0b4751;font-size:16px;margin-top:${
     source === "wecare" ? `94px` : `64px`

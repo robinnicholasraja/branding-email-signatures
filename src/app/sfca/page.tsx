@@ -1,12 +1,18 @@
 "use client";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect } from "react";
 import ServiceForgeCaSignature from "./ServiceForgeCaSignature";
-import Form from "@/app/sfca/(components)/Form";
-import { useSignatureStore } from "@/store/store";
-import { Serviceforgeca } from "@/types";
+import Form from "@/app/(components)/Form";
+import { initialData, useSignatureStore } from "@/store/store";
+import { SFCAInputs } from "@/FormFields/SFCA";
+import SignaturePreview from "../(components)/SignaturePreview";
 
 const SFCA = () => {
-  const { sfcaData, setSfcaData } = useSignatureStore((state) => state);
+  const { data, setData } = useSignatureStore((state) => state);
+  useEffect(() => {
+    setData(initialData["sfca"]);
+  }, []);
+
+  const content = ServiceForgeCaSignature(data);
 
   return (
     <section>
@@ -14,18 +20,14 @@ const SFCA = () => {
         <div className="bg-gray-100 p-8 rounded-lg w-full">
           <h1 className="mb-8 text-2xl">Serviceforge Signature Form</h1>
           <div className="flex justify-between gap-10 relative">
-            <Form />
-            <div className="w-1/2 h-screen sticky top-0">
-              <h2 className="text-3xl font-bold mb-4 text-gray-800">
-                Signature Preview
-              </h2>
-              <iframe
-                title="Signature Preview"
-                srcDoc={ServiceForgeCaSignature(sfcaData)}
-                width="100%"
-                height="300"
-              ></iframe>
+            <div className="w-1/2">
+              <Form
+                content={content}
+                inputFields={SFCAInputs}
+                defaultData={initialData["sfca"]}
+              />
             </div>
+            <SignaturePreview content={content} />
           </div>
         </div>
       </div>
