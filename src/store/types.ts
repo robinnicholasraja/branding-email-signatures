@@ -20,7 +20,7 @@ export type InputsTypes = {
 export type InputGroupTypes = InputsTypes & {
   register: UseFormRegister<Data>;
   handleKeyUp: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  error?: any;
+  error: string | undefined;
 };
 
 export type Data = {

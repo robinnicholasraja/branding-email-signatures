@@ -24,7 +24,6 @@ const SFCA = () => {
               <Form
                 content={content}
                 inputFields={SFCAInputs}
-                defaultData={initialData["sfca"]}
               />
             </div>
             <SignaturePreview content={content} />

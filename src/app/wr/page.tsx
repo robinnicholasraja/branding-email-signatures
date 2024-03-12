@@ -34,7 +34,6 @@ const WR = () => {
               <Form
                 content={content}
                 inputFields={WRInputs}
-                defaultData={initialData["wr"]}
               />
               <RadioInputList
                 name="source"

@@ -6,20 +6,20 @@ const RadioInputList = ({
   setData,
   sourceTypes,
   label,
-  name
+  name,
 }: {
   data: Data;
   setData: (data: Data) => void;
   sourceTypes: { label: string; value: string }[];
   label: string;
-  name:string
+  name: string;
 }) => {
   return (
     <div className="flex flex-col space-y-3 mt-4">
       <label className="text-gray-900">{label}</label>
       <div className="flex flex-wrap gap-4">
         {sourceTypes.map(({ label, value }) => (
-          <label className="flex gap-x-2 has-[:checked]:border has-[:checked]:border-blue-500 has-[:checked]:rounded-lg p-2">
+          <label key={label} className="flex gap-x-2 has-[:checked]:border has-[:checked]:border-blue-500 has-[:checked]:rounded-lg p-2">
             <input
               type="radio"
               className=""

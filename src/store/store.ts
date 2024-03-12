@@ -1,7 +1,11 @@
 import { create } from "zustand";
 import { Data } from "./types";
 
-export const initialData = {
+type initialData = {
+  [key: string]: Data;
+};
+
+export const initialData: initialData = {
   sfca: {
     name: "Karen Booze",
     position: "Director of Business Development",
