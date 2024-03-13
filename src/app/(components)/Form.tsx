@@ -20,7 +20,7 @@ const SignatureForm = ({
 
   // Pathname to determine which form to render with initial data
   const pathname = usePathname();
-  const index = pathname.split("/")[1];
+  const index = pathname.split("/")[2];
   const defaultdata = initialData[index];
 
   const {
