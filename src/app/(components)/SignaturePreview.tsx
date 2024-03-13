@@ -7,8 +7,8 @@ const SignaturePreview = ({ content }: { content: string }) => {
     setShowCodeBlock(!showCodeBlock);
   };
   return (
-    <div className="w-1/2 h-screen sticky top-0">
-      <h2 className="text-3xl font-bold mb-4 text-gray-800">
+    <div className="w-1/2 h-full sticky top-0">
+      <h2 className="text-3xl font-bold mb-4">
         Signature Preview
       </h2>
       <iframe
@@ -16,6 +16,7 @@ const SignaturePreview = ({ content }: { content: string }) => {
         srcDoc={content}
         width="100%"
         height="300"
+        className="border border-slate-900 pl-10 py-8 bg-white rounded-lg"
       ></iframe>
       <div className="flex items-center justify-start gap-8">
         <button

@@ -25,7 +25,7 @@ export const initialData: initialData = {
     phoneText: "800-800-4449",
     bookingLink: "https://shannawellreceived.setmore.com/",
     imageName: "wr-hand-profile",
-    imageAlt: "Karen Booze",
+    imageAlt: "Shane Ross",
     source: "trustpilot",
   },
 };
