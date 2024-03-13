@@ -5,10 +5,8 @@ export type RegisterNameTypes =
   | "email"
   | "name"
   | "phone"
-  | "phoneText"
   | "bookingLink"
-  | "imageName"
-  | "imageAlt"
+  | "image"
   | "source";
 
 export type InputsTypes = {
@@ -28,9 +26,7 @@ export type Data = {
   position: string;
   email: string;
   phone: string;
-  phoneText: string;
   bookingLink: string;
-  imageName: string;
-  imageAlt: string;
+  image: string;
   source: string;
 };

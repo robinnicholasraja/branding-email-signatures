@@ -5,11 +5,13 @@ const ServiceForgeCaSignature = (sfcaData: Data) => {
     position,
     email,
     phone,
-    phoneText,
     bookingLink,
-    imageName,
-    imageAlt,
+    image,
   } = sfcaData;
+
+  const formatPhoneNumber = (phoneNumber: string) => {
+    return phoneNumber.replace(/-/g, "");
+  };
 
   const usernameWordSplit = () => {
     const usernameSplit = name.split(" ");
@@ -20,6 +22,9 @@ const ServiceForgeCaSignature = (sfcaData: Data) => {
       return usernameSplit[0] + "<br>" + usernameSplit[1];
     }
   };
+
+  const formattedPhone = formatPhoneNumber(phone);
+
   return `
     <html>
     <head>
@@ -31,13 +36,13 @@ const ServiceForgeCaSignature = (sfcaData: Data) => {
             <tbody>
                 <tr>
                     <td style="padding:20px;width: 64px;vertical-align: top;text-align:  right;">
-                        <img src="https://storage.googleapis.com/email_signatures/ServiceForge/ca/images/${imageName}.jpg" width="64" height="64" style="width: 64px; height: 64px; font-size: 14px; color: #000000;" alt="${imageAlt}">
+                        <img src="${image}" width="64" height="64" style="width: 64px; height: 64px; font-size: 14px; color: #000000;" alt="${name}">
                     </td>
                     <td style="padding: 20px 0;vertical-align: top;">
                         <p style="font-family: Arial, sans-serif;color:#000000;font-size:22px;margin:0 0 12px;line-height: 22px;letter-spacing: -0.2px;">${usernameWordSplit()}</p>
                         <p style="font-family: Arial, sans-serif;color:#000000;font-size:12px;margin:0 0 32px;font-weight: 400;line-height: 12px;letter-spacing: -0.12px;">${position}</p>
                         <a href="mailto:${email}" style="display:block;font-family: Arial, sans-serif;color: #000000;font-size:12px;font-weight: 400;line-height: 14px;letter-spacing: -0.12px;text-decoration: none;cursor: pointer;">${email}</a>
-                        <a href="tel:+${phone}" style="display:block;font-family: Arial, sans-serif;color: #000000;font-size:12px;font-weight: 400;line-height: 14px;letter-spacing: -0.12px;text-decoration: none; cursor: pointer;" target="_blank">${phoneText}</a>
+                        <a href="tel:+${formattedPhone}" style="display:block;font-family: Arial, sans-serif;color: #000000;font-size:12px;font-weight: 400;line-height: 14px;letter-spacing: -0.12px;text-decoration: none; cursor: pointer;" target="_blank">${phone}</a>
                     </td>
                    <td valign="top" align="right" style="padding: 20px 20px 20px 76px;">
                         <a href="https://www.serviceforge.com/ca" target="_blank" style="margin:0 0 96px;border-radius: 100%;box-sizing: border-box;display: inline-block;height: 16px;"><img src="https://storage.googleapis.com/email_signatures/ServiceForge/ca/images/service-forge-logo.png" width="100" height="16" style="width: 100px; height: 16px; font-size: 14px; color: #000000;" alt="serviceforge"></a>

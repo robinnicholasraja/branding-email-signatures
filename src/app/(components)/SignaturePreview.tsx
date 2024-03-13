@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import { CodeBlock } from "../(components)/CodeBlock";
+import Modal from "./Modal";
 
 const SignaturePreview = ({ content }: { content: string }) => {
-  const [showCodeBlock, setShowCodeBlock] = useState<Boolean>(false);
+  const [showCodeBlock, setShowCodeBlock] = useState<boolean>(false);
   const handleShowCodeBlock = () => {
     setShowCodeBlock(!showCodeBlock);
   };
   return (
     <div className="w-1/2 h-full sticky top-0">
-      <h2 className="text-3xl font-bold mb-4">
-        Signature Preview
-      </h2>
+      <h2 className="text-3xl font-bold mb-4">Signature Preview</h2>
       <iframe
         title="Signature Preview"
         srcDoc={content}
@@ -34,9 +33,11 @@ const SignaturePreview = ({ content }: { content: string }) => {
           {showCodeBlock ? "Hide" : "Show"} codeblock
         </button>
       </div>
-      <div className="mt-5">
-        {showCodeBlock && <CodeBlock markup={content} />}
-      </div>
+      <Modal toggleModal={showCodeBlock} setToggleModal={setShowCodeBlock}>
+        <div className="mt-2 max-w-[1000px] max-h-[600px] overflow-scroll">
+          {showCodeBlock && <CodeBlock markup={content} />}
+        </div>
+      </Modal>
     </div>
   );
 };

@@ -15,7 +15,7 @@ const InputGroup = ({
         <input
           type={type}
           placeholder={label}
-          className={`w-[300px] border bg-slate-200 rounded-lg py-3 px-5 outline-none bg-transparent ${error ? "border-red-600" : "border-green-600"}`}
+          className={`w-[400px] border bg-slate-200 rounded-lg py-3 px-5 outline-none bg-transparent ${error ? "border-red-600" : "border-green-600"}`}
           onKeyUp={handleKeyUp}
           {...register(registerName)}
         />

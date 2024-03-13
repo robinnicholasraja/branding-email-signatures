@@ -1,13 +1,15 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ServiceForgeCaSignature from "./ServiceForgeCaSignature";
 import Form from "@/app/(components)/Form";
 import { initialData, useSignatureStore } from "@/store/store";
 import { SFCAInputs } from "@/FormFields/SFCA";
 import SignaturePreview from "../(components)/SignaturePreview";
+import Modal from "../(components)/Modal";
 
 const SFCA = () => {
   const { data, setData } = useSignatureStore((state) => state);
+
   useEffect(() => {
     setData(initialData["sfca"]);
   }, []);

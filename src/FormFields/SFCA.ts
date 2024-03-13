@@ -7,7 +7,7 @@ export const SFCAInputs: InputsTypes[] = [
     registerName: "name",
   },
   {
-    label: "Role",
+    label: "Position",
     type: "text",
     registerName: "position",
   },
@@ -22,23 +22,13 @@ export const SFCAInputs: InputsTypes[] = [
     registerName: "phone",
   },
   {
-    label: "Phone Number Text",
-    type: "text",
-    registerName: "phoneText",
-  },
-  {
     label: "Booking Link",
     type: "text",
     registerName: "bookingLink",
   },
   {
-    label: "Image Name",
+    label: "image",
     type: "text",
-    registerName: "imageName",
-  },
-  {
-    label: "Image Alt",
-    type: "text",
-    registerName: "imageAlt",
+    registerName: "image",
   },
 ];
