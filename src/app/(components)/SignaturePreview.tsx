@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { CodeBlock } from "../(components)/CodeBlock";
-import Modal from "./Modal";
+import { useSignatureStore } from "@/store/store";
 
 const SignaturePreview = ({ content }: { content: string }) => {
+  const { isFormValid } = useSignatureStore((state) => state);
+
   const [showCodeBlock, setShowCodeBlock] = useState<boolean>(false);
   const handleShowCodeBlock = () => {
     setShowCodeBlock(!showCodeBlock);
@@ -22,7 +24,7 @@ const SignaturePreview = ({ content }: { content: string }) => {
           type="submit"
           value="Download Signature"
           form="signature-form"
-          className="bg-sky-500 hover:bg-sky-700 px-5 py-2 text-sm leading-5 rounded-full font-semibold mt-4 text-white cursor-pointer"
+          className={`px-5 py-2 text-sm leading-5 rounded-full font-semibold mt-4 text-white cursor-pointer ${isFormValid ? "bg-sky-500 hover:bg-sky-700" : "bg-gray-300 hover:bg-gray-400 cursor-not-allowed"}`}
         >
           Download
         </button>
@@ -33,11 +35,9 @@ const SignaturePreview = ({ content }: { content: string }) => {
           {showCodeBlock ? "Hide" : "Show"} codeblock
         </button>
       </div>
-      <Modal toggleModal={showCodeBlock} setToggleModal={setShowCodeBlock}>
-        <div className="mt-2 max-w-[1000px] max-h-[600px] overflow-scroll">
-          {showCodeBlock && <CodeBlock markup={content} />}
-        </div>
-      </Modal>
+      <div className="mt-2 max-w-[1000px] max-h-[600px] overflow-scroll">
+        {showCodeBlock && <CodeBlock markup={content} />}
+      </div>
     </div>
   );
 };

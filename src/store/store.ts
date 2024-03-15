@@ -27,8 +27,10 @@ export const initialData: initialData = {
 };
 
 type SignatureStoreTypes = {
+  isFormValid: boolean;
   data: Data;
   setData: (sfcaData: Data) => void;
+  setIsFormValid: (isFormValid: boolean) => void;
 };
 
 export const useSignatureStore = create<SignatureStoreTypes>()((set) => ({
@@ -41,5 +43,7 @@ export const useSignatureStore = create<SignatureStoreTypes>()((set) => ({
     image: "",
     source: "",
   },
+  isFormValid: false,
+  setIsFormValid: (isFormValid: boolean) => set(() => ({ isFormValid })),
   setData: (data: Data) => set(() => ({ data })),
 }));

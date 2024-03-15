@@ -1,8 +1,5 @@
 import { Data } from "@/store/types";
-
-const formatPhoneNumber = (phoneNumber: string) => {
-  return phoneNumber.replace(/-/g, "");
-};
+import {formatPhoneNumber} from "../../../util";
 
 const getReviewContent = (source: string) => {
   switch (source) {

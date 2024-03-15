@@ -140,7 +140,7 @@ const SignatureForm = ({
           );
         })}
         {
-          pathname === "/wr"
+          pathname === "/signatures/wr"
             ? <RadioInputList
               label="Source"
               register={register}

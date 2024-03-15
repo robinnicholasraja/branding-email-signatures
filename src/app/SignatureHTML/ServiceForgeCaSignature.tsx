@@ -1,4 +1,6 @@
 import { Data } from "@/store/types";
+import {formatPhoneNumber,usernameWordSplit} from "../../../util";
+
 const ServiceForgeCaSignature = (sfcaData: Data) => {
   const {
     name,
@@ -8,20 +10,6 @@ const ServiceForgeCaSignature = (sfcaData: Data) => {
     bookingLink,
     image,
   } = sfcaData;
-
-  const formatPhoneNumber = (phoneNumber: string) => {
-    return phoneNumber.replace(/-/g, "");
-  };
-
-  const usernameWordSplit = () => {
-    const usernameSplit = name.split(" ");
-    if (usernameSplit.length === 1) return name;
-    if (usernameSplit.length > 2) {
-      return usernameSplit[0] + " " + usernameSplit[1] + "<br>" + usernameSplit[2];
-    } else {
-      return usernameSplit[0] + "<br>" + usernameSplit[1];
-    }
-  };
 
   const formattedPhone = formatPhoneNumber(phone);
 
@@ -39,7 +27,7 @@ const ServiceForgeCaSignature = (sfcaData: Data) => {
                         <img src="${image}" width="64" height="64" style="width: 64px; height: 64px; font-size: 14px; color: #000000;" alt="${name}">
                     </td>
                     <td style="padding: 20px 0;vertical-align: top;">
-                        <p style="font-family: Arial, sans-serif;color:#000000;font-size:22px;margin:0 0 12px;line-height: 22px;letter-spacing: -0.2px;">${usernameWordSplit()}</p>
+                        <p style="font-family: Arial, sans-serif;color:#000000;font-size:22px;margin:0 0 12px;line-height: 22px;letter-spacing: -0.2px;">${usernameWordSplit(name)}</p>
                         <p style="font-family: Arial, sans-serif;color:#000000;font-size:12px;margin:0 0 32px;font-weight: 400;line-height: 12px;letter-spacing: -0.12px;">${position}</p>
                         <a href="mailto:${email}" style="display:block;font-family: Arial, sans-serif;color: #000000;font-size:12px;font-weight: 400;line-height: 14px;letter-spacing: -0.12px;text-decoration: none;cursor: pointer;">${email}</a>
                         <a href="tel:+${formattedPhone}" style="display:block;font-family: Arial, sans-serif;color: #000000;font-size:12px;font-weight: 400;line-height: 14px;letter-spacing: -0.12px;text-decoration: none; cursor: pointer;" target="_blank">${phone}</a>
