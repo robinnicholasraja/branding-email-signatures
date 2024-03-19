@@ -1,46 +1,72 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Form from "@/app/(components)/Form";
 import SignaturePreview from "@/app/(components)/SignaturePreview";
 import { initialData, useSignatureStore } from "@/store/store";
 
 // ADD SIGNATURES HTML HERE
 import WRSignature from "@/app/SignatureHTML/WellReceivedSignatures";
-import ServiceForgeCaSignature from "@/app/SignatureHTML/ServiceForgeCaSignature";
+import {
+  ServiceForgeCaSignature,
+  ServiceForgeUSSignature,
+} from "@/app/SignatureHTML/ServiceForgeSignature";
 
 // ADD SIGNATURES INPUT FIELD ARRAY HERE
-import {  WR } from "@/store/types";
+import { InputTypes, WR } from "@/store/types";
 import { WRInputs } from "@/FormFields/WR";
-import { SFCAInputs } from "@/FormFields/SFCA";
+import { SFInputs } from "@/FormFields/SF";
 import Link from "next/link";
 
 const Brand = ({ params }: { params: { brand: string } }) => {
-  const { data, setData, isLinkedIn } = useSignatureStore((state) => state);
+  const { data, setData, region } = useSignatureStore(
+    (state) => state
+  );
+  const [pageData, setPageData] = useState({
+    htmlContent: "" as string,
+    inputFields: [] as InputTypes[],
+  });
 
   useEffect(() => {
-    setData(initialData[params.brand]);
-  }, []);
+    if (params.brand === "wr") {
+      setData(initialData[params.brand]);
+    } else {
+      setData(initialData[`${params.brand}${region}`]);
+    }
+  }, [region]);
 
   const getSignatureHtml = (brand: string) => {
     const SignatureHtml = [
       { brandName: "wr", data: WRSignature(data as WR), inputFields: WRInputs },
       {
-        brandName: "sfca",
+        brandName: "sf",
+        region: "us",
+        data: ServiceForgeUSSignature(data),
+        inputFields: SFInputs,
+      },
+      {
+        brandName: "sf",
+        region: "ca",
         data: ServiceForgeCaSignature(data),
-        inputFields: SFCAInputs,
+        inputFields: SFInputs,
       },
       // Add other brands config here
     ];
 
+    const signatureWithRegion =
+      SignatureHtml.find(
+        (item) => item?.region && item?.brandName === brand
+      ) || SignatureHtml.find((item) => item?.brandName === brand);
+        
     return {
-      htmlContent: SignatureHtml.find((item) => item?.brandName === brand)
-        ?.data as string,
-      inputFields: SignatureHtml.find((item) => item?.brandName === brand)
-        ?.inputFields,
+      htmlContent: signatureWithRegion?.data as string,
+      inputFields: signatureWithRegion?.inputFields,
     };
   };
 
-  const { htmlContent, inputFields } = getSignatureHtml(params.brand);
+  useEffect(() => {
+    const { htmlContent, inputFields } = getSignatureHtml(params.brand);
+    setPageData({ htmlContent, inputFields: inputFields as InputTypes[] });
+  }, [region,data]);
 
   return (
     <section>
@@ -64,12 +90,9 @@ const Brand = ({ params }: { params: { brand: string } }) => {
           </div>
           <div className="flex justify-between gap-10 relative">
             <div className="w-1/2">
-              <Form
-                content={htmlContent}
-                inputFields={inputFields}
-              />
+              <Form content={pageData.htmlContent} inputFields={pageData.inputFields} />
             </div>
-            <SignaturePreview content={htmlContent} />
+            <SignaturePreview content={pageData.htmlContent} />
           </div>
         </div>
       </div>

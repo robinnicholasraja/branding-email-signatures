@@ -2,6 +2,14 @@ import { create } from "zustand";
 import { Brands } from "./types";
 
 type initialData = {
+  sfus: {
+    name: string;
+    position: string;
+    email: string;
+    phone: string;
+    bookingLink: string;
+    image: string;
+  }
   sfca: {
     name: string;
     position: string;
@@ -23,6 +31,15 @@ type initialData = {
 };
 
 export const initialData: initialData = {
+  sfus: {
+    name: "Craig Cockburn",
+    position: "Head of Mattering & Impact",
+    email: "craig@serviceforge.com",
+    phone: "1-877-381-4105",
+    bookingLink: "https://serviceforgecanada.setmore.com/",
+    image:
+      "https://storage.googleapis.com/email_signatures/ServiceForge/ca/images/craig-cockburn.jpg",
+  },
   sfca: {
     name: "Karen Booze",
     position: "Director of Business Development",
@@ -41,16 +58,18 @@ export const initialData: initialData = {
     image:
       "https://storage.googleapis.com/email_signatures/wellreceived/images/wr-hand-profile.png",
     source: "trustpilot",
-  },
+  }
 };
 
 type SignatureStoreTypes = {
   isFormValid: boolean;
   isLinkedIn: boolean;
+  region: string;
   data: Brands;
   setIsFormValid: (isFormValid: boolean) => void;
-  setData: (sfcaData: Brands) => void;
+  setData: (data: Brands) => void;
   setIsLinkedIn: (isLinkedIn: boolean) => void;
+  setRegion: (region: string) => void;
 };
 
 export const useSignatureStore = create<SignatureStoreTypes>()((set) => ({
@@ -62,11 +81,12 @@ export const useSignatureStore = create<SignatureStoreTypes>()((set) => ({
     bookingLink: "",
     image: "",
     source: "",
-    linkedin:""
   },
   isLinkedIn: false,
   isFormValid: false,
+  region: "us",
   setIsFormValid: (isFormValid: boolean) => set(() => ({ isFormValid })),
   setIsLinkedIn: (isLinkedIn: boolean) => set(() => ({ isLinkedIn })),
   setData: (data: Brands) => set(() => ({ data })),
+  setRegion: (region: string) => set(() => ({ region })),
 }));

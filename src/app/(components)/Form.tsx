@@ -1,12 +1,13 @@
 "use client";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Data, InputTypes } from "@/store/types";
+import { Brands, InputTypes } from "@/store/types";
 import InputGroup from "./InputGroup";
 import { baseSchema, WRSchema } from "@/store/schema";
 import { usePathname } from "next/navigation";
 import { initialData, useSignatureStore } from "@/store/store";
 import RadioInputList from "./RadioInputList";
+import { useEffect } from "react";
 
 const SignatureForm = ({
   content,
@@ -16,18 +17,22 @@ const SignatureForm = ({
   inputFields: InputTypes[] | undefined;
 }) => {
   // Global state and setter method from the store
-  const { data, setData, isLinkedIn, setIsLinkedIn } = useSignatureStore(
+  const { data, setData, region, setRegion } = useSignatureStore(
     (state) => state
   );
+
+  const brandsWithRegions = ["sf", "ac", "lex", "af"];
 
   // Pathname to determine which form to render with initial data
   const pathname = usePathname();
   const index = pathname.split("/")[2];
-  const defaultdata = initialData[index];
+  const defaultdata = brandsWithRegions.includes(index)
+    ? initialData[`${index}${region}`]
+    : initialData[index];
 
   const getCurrentRouteSchema = (currentRoute: string) => {
     switch (currentRoute) {
-      case "/signatures/sfca":
+      case "/signatures/sf":
         return baseSchema;
       case "/signatures/wr":
         return WRSchema;
@@ -52,6 +57,12 @@ const SignatureForm = ({
   });
 
   const watchData = watch(); // watches the value of all the inputs in real time
+
+  useEffect(() => {
+    Object.entries(defaultdata).forEach(([key, value]) =>
+      setValue(key as keyof Brands, value)
+    );
+  }, [region]);
 
   /**
    * Handles the keyup event for an input field, updating the field value
@@ -109,6 +120,7 @@ const SignatureForm = ({
 
     // Revoke the URL after the download is complete
     URL.revokeObjectURL(url);
+    setRegion(region);
   };
 
   /**
@@ -118,9 +130,9 @@ const SignatureForm = ({
    * triggers the download of the HTML content, updates the
    * global state with the default data, and resets the form.
    *
-   * @param {Data} data - The form data.
+   * @param {Brands} data - The form data.
    */
-  const onSubmitHandler: SubmitHandler<Data> = (data: Data) => {
+  const onSubmitHandler: SubmitHandler<Brands> = (data: Brands) => {
     // Update the global state with the form data
     setData(data);
 
@@ -130,8 +142,9 @@ const SignatureForm = ({
     // Update the global state with the default data
     setData(defaultdata);
 
-    // Reset the form
-    reset();
+    Object.entries(defaultdata).forEach(([key, value]) =>
+      setValue(key as keyof Brands, value)
+    );
   };
 
   const sourceTypes = [
@@ -157,13 +170,37 @@ const SignatureForm = ({
               type={type}
               register={register}
               registerName={registerName}
-              error={
-                errors?.[registerName as keyof typeof errors]?.message
-              }
+              error={errors?.[registerName as keyof typeof errors]?.message}
               handleKeyUp={(e) => handleKeyUp(e, registerName)}
             />
           );
         })}
+        {brandsWithRegions.includes(index) ? (
+          <div className="flex gap-x-6">
+            <label htmlFor="US">
+              US
+              <input
+                type="radio"
+                value="us"
+                id="US"
+                name="region"
+                checked={region === "us"}
+                onChange={() => setRegion("us")}
+              />
+            </label>
+            <label htmlFor="CA">
+              CA
+              <input
+                type="radio"
+                value="ca"
+                id="CA"
+                name="region"
+                checked={region === "ca"}
+                onChange={() => setRegion("ca")}
+              />
+            </label>
+          </div>
+        ) : null}
         {pathname === "/signatures/wr" ? (
           <RadioInputList
             label="Source"
