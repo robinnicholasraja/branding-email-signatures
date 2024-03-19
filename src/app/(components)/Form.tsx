@@ -1,9 +1,9 @@
 "use client";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Data, InputsTypes, RegisterNameTypes } from "@/store/types";
+import { Data, InputTypes } from "@/store/types";
 import InputGroup from "./InputGroup";
-import { schema } from "@/store/schema";
+import { baseSchema, WRSchema } from "@/store/schema";
 import { usePathname } from "next/navigation";
 import { initialData, useSignatureStore } from "@/store/store";
 import RadioInputList from "./RadioInputList";
@@ -13,15 +13,30 @@ const SignatureForm = ({
   inputFields,
 }: {
   content: string;
-  inputFields: InputsTypes[];
+  inputFields: InputTypes[] | undefined;
 }) => {
   // Global state and setter method from the store
-  const { data, setData } = useSignatureStore((state) => state);
+  const { data, setData, isLinkedIn, setIsLinkedIn } = useSignatureStore(
+    (state) => state
+  );
 
   // Pathname to determine which form to render with initial data
   const pathname = usePathname();
   const index = pathname.split("/")[2];
   const defaultdata = initialData[index];
+
+  const getCurrentRouteSchema = (currentRoute: string) => {
+    switch (currentRoute) {
+      case "/signatures/sfca":
+        return baseSchema;
+      case "/signatures/wr":
+        return WRSchema;
+      default:
+        return baseSchema; // You can define a default schema if needed
+    }
+  };
+
+  const finalSchema = getCurrentRouteSchema(pathname); // Implement this function to return the correct schema based on the route
 
   const {
     register, // register's input fields to the form
@@ -30,8 +45,8 @@ const SignatureForm = ({
     reset, // resets the form
     setValue, // sets the value of the input manually
     watch, // watches the value of the input
-  } = useForm<Data>({
-    resolver: yupResolver(schema), // yup schema validation with resolver
+  } = useForm({
+    resolver: yupResolver(finalSchema), // yup schema validation with resolver
     defaultValues: defaultdata, // sets the default values of the form inputs
     mode: "all", // mode to validate the form inputs - all = onChange, onBlue, onSubmit
   });
@@ -47,14 +62,22 @@ const SignatureForm = ({
    */
   const handleKeyUp = (
     event: React.KeyboardEvent<HTMLInputElement>,
-    registerName: RegisterNameTypes
+    registerName: string
   ) => {
     // Update the field value on keyup
     const updatedValue = event.currentTarget.value; // Get the updated value from the input field
-    setValue(registerName, updatedValue); // Update the value of the input field in the form state
+    setValue(
+      registerName as
+        | "image"
+        | "position"
+        | "name"
+        | "email"
+        | "phone"
+        | "bookingLink",
+      updatedValue
+    ); // Update the value of the input field in the form state
     setData(watchData); // Update the global state with the latest form data
   };
-
 
   /**
    * Handles the download of the HTML content of the form.
@@ -126,7 +149,7 @@ const SignatureForm = ({
         className="space-y-8"
         onSubmit={handleSubmit(onSubmitHandler)}
       >
-        {inputFields.map(({ label, type, registerName }) => {
+        {inputFields?.map(({ label, type, registerName }: InputTypes) => {
           return (
             <InputGroup
               key={registerName}
@@ -134,21 +157,21 @@ const SignatureForm = ({
               type={type}
               register={register}
               registerName={registerName}
-              error={errors?.[registerName]?.message}
+              error={
+                errors?.[registerName as keyof typeof errors]?.message
+              }
               handleKeyUp={(e) => handleKeyUp(e, registerName)}
             />
           );
         })}
-        {
-          pathname === "/signatures/wr"
-            ? <RadioInputList
-              label="Source"
-              register={register}
-              registerName="source"
-              sourceTypes={sourceTypes}
-            />
-            : null
-        }
+        {pathname === "/signatures/wr" ? (
+          <RadioInputList
+            label="Source"
+            register={register}
+            registerName="source"
+            sourceTypes={sourceTypes}
+          />
+        ) : null}
       </form>
     </div>
   );

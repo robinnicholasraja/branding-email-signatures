@@ -9,13 +9,13 @@ import WRSignature from "@/app/SignatureHTML/WellReceivedSignatures";
 import ServiceForgeCaSignature from "@/app/SignatureHTML/ServiceForgeCaSignature";
 
 // ADD SIGNATURES INPUT FIELD ARRAY HERE
-import { InputsTypes } from "@/store/types";
+import {  WR } from "@/store/types";
 import { WRInputs } from "@/FormFields/WR";
 import { SFCAInputs } from "@/FormFields/SFCA";
 import Link from "next/link";
 
 const Brand = ({ params }: { params: { brand: string } }) => {
-  const { data, setData } = useSignatureStore((state) => state);
+  const { data, setData, isLinkedIn } = useSignatureStore((state) => state);
 
   useEffect(() => {
     setData(initialData[params.brand]);
@@ -23,7 +23,7 @@ const Brand = ({ params }: { params: { brand: string } }) => {
 
   const getSignatureHtml = (brand: string) => {
     const SignatureHtml = [
-      { brandName: "wr", data: WRSignature(data), inputFields: WRInputs },
+      { brandName: "wr", data: WRSignature(data as WR), inputFields: WRInputs },
       {
         brandName: "sfca",
         data: ServiceForgeCaSignature(data),
@@ -51,7 +51,9 @@ const Brand = ({ params }: { params: { brand: string } }) => {
         >
           Back to homepage
         </Link>
-        <h1 className="text-center flex-1 text-3xl">Email signature generator</h1>
+        <h1 className="text-center flex-1 text-3xl">
+          Email signature generator
+        </h1>
       </div>
       <div className="container mx-auto pb-10">
         <div className="bg-gray-900 text-slate-100 p-8 rounded-lg w-full">
@@ -64,7 +66,7 @@ const Brand = ({ params }: { params: { brand: string } }) => {
             <div className="w-1/2">
               <Form
                 content={htmlContent}
-                inputFields={inputFields as InputsTypes[]}
+                inputFields={inputFields}
               />
             </div>
             <SignaturePreview content={htmlContent} />

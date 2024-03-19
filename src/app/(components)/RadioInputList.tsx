@@ -1,5 +1,5 @@
 import { useSignatureStore } from "@/store/store";
-import { Data, RegisterNameTypes } from "@/store/types";
+import { Brands, RegisterNameTypes } from "@/store/types";
 import React from "react";
 import { UseFormRegister } from "react-hook-form";
 
@@ -11,7 +11,7 @@ const RadioInputList = ({
 }: {
   sourceTypes: { label: string; value: string }[];
   label: string;
-  register: UseFormRegister<Data>;
+  register: UseFormRegister<Brands>;
   registerName: RegisterNameTypes;
 }) => {
   const { data, setData } = useSignatureStore((state) => state);

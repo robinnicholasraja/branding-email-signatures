@@ -1,6 +1,6 @@
-import { InputsTypes } from "@/store/types";
+import { InputTypes } from "@/store/types";
 
-export const WRInputs: InputsTypes[] = [
+export const WRInputs: InputTypes[] = [
   {
     label: "Username",
     type: "text",

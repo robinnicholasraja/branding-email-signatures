@@ -1,4 +1,4 @@
-import { Data } from "@/store/types";
+import { WR } from "@/store/types";
 import {formatPhoneNumber} from "../../../util";
 
 const getReviewContent = (source: string) => {
@@ -26,7 +26,7 @@ const WellReceivedSignatures = ({
   bookingLink,
   image,
   source,
-}: Data): string => {
+}: WR): string => {
   const reviewContent = getReviewContent(source);
   let imageSrc;
   if (source === "wecare") {
