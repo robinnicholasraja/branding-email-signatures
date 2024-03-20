@@ -1,7 +1,7 @@
 "use client";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Brands, InputTypes } from "@/store/types";
+import { Brands, InputTypes, RegisterNameTypes } from "@/store/types";
 import InputGroup from "./InputGroup";
 import { baseSchema, WRSchema } from "@/store/schema";
 import { usePathname } from "next/navigation";
@@ -73,18 +73,12 @@ const SignatureForm = ({
    */
   const handleKeyUp = (
     event: React.KeyboardEvent<HTMLInputElement>,
-    registerName: string
+    registerName: RegisterNameTypes
   ) => {
     // Update the field value on keyup
     const updatedValue = event.currentTarget.value; // Get the updated value from the input field
     setValue(
-      registerName as
-        | "image"
-        | "position"
-        | "name"
-        | "email"
-        | "phone"
-        | "bookingLink",
+      registerName,
       updatedValue
     ); // Update the value of the input field in the form state
     setData(watchData); // Update the global state with the latest form data
@@ -171,7 +165,7 @@ const SignatureForm = ({
               register={register}
               registerName={registerName}
               error={errors?.[registerName as keyof typeof errors]?.message}
-              handleKeyUp={(e) => handleKeyUp(e, registerName)}
+              handleKeyUp={(e) => handleKeyUp(e, registerName as RegisterNameTypes)}
             />
           );
         })}

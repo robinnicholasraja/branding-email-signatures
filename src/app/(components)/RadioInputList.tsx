@@ -12,7 +12,7 @@ const RadioInputList = ({
   sourceTypes: { label: string; value: string }[];
   label: string;
   register: UseFormRegister<Brands>;
-  registerName: RegisterNameTypes;
+  registerName: RegisterNameTypes | "source";
 }) => {
   const { data, setData } = useSignatureStore((state) => state);
 

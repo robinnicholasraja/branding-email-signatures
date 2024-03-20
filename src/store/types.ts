@@ -1,6 +1,6 @@
 import { UseFormRegister } from "react-hook-form";
 
-export type RegisterNameTypes = "image" | "position" | "name" | "email" | "phone" | "bookingLink" | "source";
+export type RegisterNameTypes = "image" | "position" | "name" | "email" | "phone" | "bookingLink";
 
 export type InputsTypes = {
   label: string;
