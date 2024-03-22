@@ -1,5 +1,5 @@
 "use client";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useController, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Brands, InputTypes, RegisterNameTypes } from "@/store/types";
 import InputGroup from "./InputGroup";
@@ -17,7 +17,7 @@ const SignatureForm = ({
   inputFields: InputTypes[] | undefined;
 }) => {
   // Global state and setter method from the store
-  const { data, setData, region, setRegion, isFormValid, setIsFormValid } =
+  const { data, setData, region, setRegion, setIsFormValid, setInputFocus } =
     useSignatureStore((state) => state);
 
   const brandsWithRegions = ["sf", "ac", "lex", "af"];
@@ -48,6 +48,7 @@ const SignatureForm = ({
     formState: { errors, isValid }, // Gives access to the errors object
     setValue, // sets the value of the input manually
     watch, // watches the value of the input
+    setFocus, // sets the focus on the input
   } = useForm({
     resolver: yupResolver(finalSchema), // yup schema validation with resolver
     defaultValues: defaultdata, // sets the default values of the form inputs
@@ -79,6 +80,7 @@ const SignatureForm = ({
   ) => {
     // Update the field value on keyup
     const updatedValue = event.currentTarget.value; // Get the updated value from the input field
+    setFocus(registerName); // sets the focus on the current input
     setValue(registerName, updatedValue); // Update the value of the input field in the form state
     setData(watchData); // Update the global state with the latest form data
     setIsFormValid(isValid);
@@ -168,41 +170,32 @@ const SignatureForm = ({
               handleKeyUp={(e) =>
                 handleKeyUp(e, registerName as RegisterNameTypes)
               }
+              onFocus={() => setInputFocus(true)}
             />
           );
         })}
         {brandsWithRegions.includes(index) ? (
           <div className="flex gap-x-6">
-            <label
-              htmlFor="US"
-              className="flex gap-x-2 border border-slate-400 has-[:checked]:border-green-400 has-[:checked]:border-2 rounded-lg pl-6 pr-2 py-2 cursor-pointer relative"
-            >
-              US
-              <input
-                type="radio"
-                value="us"
-                id="US"
-                name="region"
-                checked={region === "us"}
-                onChange={() => setRegion("us")}
-                className="appearance-none before:rounded-full before:bg-slate-400 before:checked:bg-green-400 before:absolute before:w-2 before:h-2 before:top-1/2 before:left-2 before:-translate-y-1/2"
-              />
-            </label>
-            <label
-              htmlFor="CA"
-              className="flex gap-x-2 border border-slate-400 has-[:checked]:border-green-400 has-[:checked]:border-2 rounded-lg pl-6 pr-2 py-2 cursor-pointer relative"
-            >
-              CA
-              <input
-                type="radio"
-                value="ca"
-                id="CA"
-                name="region"
-                checked={region === "ca"}
-                onChange={() => setRegion("ca")}
-                className="appearance-none before:rounded-full before:bg-slate-400 before:checked:bg-green-400 before:absolute before:w-2 before:h-2 before:top-1/2 before:left-2 before:-translate-y-1/2"
-              />
-            </label>
+            {["US", "CA"].map((regionName) => {
+              return (
+                <label
+                  key={regionName}
+                  htmlFor={regionName}
+                  className="flex gap-x-2 border border-slate-400 has-[:checked]:border-green-400 has-[:checked]:border-2 rounded-lg pl-6 pr-2 py-2 cursor-pointer relative"
+                >
+                  {regionName}
+                  <input
+                    type="radio"
+                    value={regionName.toLowerCase()}
+                    id={regionName}
+                    name="region"
+                    checked={region === regionName.toLocaleLowerCase()}
+                    onChange={() => setRegion(regionName.toLocaleLowerCase())}
+                    className="appearance-none before:rounded-full before:bg-slate-400 before:checked:bg-green-400 before:absolute before:w-2 before:h-2 before:top-1/2 before:left-2 before:-translate-y-1/2"
+                  />
+                </label>
+              );
+            })}
           </div>
         ) : null}
         {pathname === "/signatures/wr" ? (

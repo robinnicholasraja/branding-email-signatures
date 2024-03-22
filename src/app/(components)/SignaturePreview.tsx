@@ -3,7 +3,7 @@ import { CodeBlock } from "../(components)/CodeBlock";
 import { useSignatureStore } from "@/store/store";
 
 const SignaturePreview = ({ content }: { content: string }) => {
-  const { isFormValid } = useSignatureStore((state) => state);
+  const { isFormValid, inputFocus } = useSignatureStore((state) => state);
 
   const [showCodeBlock, setShowCodeBlock] = useState<boolean>(false);
   const handleShowCodeBlock = () => {
@@ -17,7 +17,7 @@ const SignaturePreview = ({ content }: { content: string }) => {
         srcDoc={content}
         width="100%"
         height="300"
-        className="border border-slate-900 pl-7 py-8 bg-white rounded-lg"
+        className={`border ${inputFocus ? "border-sky-500" : "border-slate-800"} p-2 bg-white rounded-lg overflow-hidden`}
       ></iframe>
       <div className="flex items-center justify-start gap-8">
         <button
@@ -25,7 +25,11 @@ const SignaturePreview = ({ content }: { content: string }) => {
           value="Download Signature"
           form="signature-form"
           disabled={!isFormValid}
-          className={`px-5 py-2 text-sm leading-5 rounded-full font-semibold mt-4 text-white ${isFormValid ? "bg-sky-500 hover:bg-sky-700 cursor-pointer" : "bg-gray-300 hover:bg-gray-400 cursor-not-allowed"}`}
+          className={`px-5 py-2 text-sm leading-5 rounded-full font-semibold mt-4 text-white ${
+            isFormValid
+              ? "bg-sky-500 hover:bg-sky-700 cursor-pointer"
+              : "bg-gray-300 hover:bg-gray-400 cursor-not-allowed"
+          }`}
         >
           Download
         </button>
@@ -36,9 +40,11 @@ const SignaturePreview = ({ content }: { content: string }) => {
           {showCodeBlock ? "Hide" : "Show"} codeblock
         </button>
       </div>
-      <div className="mt-2 max-w-[1000px] max-h-[600px] overflow-scroll">
-        {showCodeBlock && <CodeBlock markup={content} />}
-      </div>
+      {showCodeBlock && (
+        <div className="mt-2 max-w-[1000px] max-h-[600px] overflow-scroll">
+          {showCodeBlock && <CodeBlock markup={content} />}
+        </div>
+      )}
     </div>
   );
 };

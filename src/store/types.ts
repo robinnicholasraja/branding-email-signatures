@@ -6,18 +6,17 @@ export type InputsTypes = {
   label: string;
   type: string;
   registerName: RegisterNameTypes;
+  handleKeyUp: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  onFocus: (e: React.FocusEvent<HTMLInputElement>) => void;
+  error: string | undefined;
 };
 
 export type SFCAInputGroupTypes = InputsTypes & {
   register: UseFormRegister<Brands>;
-  handleKeyUp: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  error: string | undefined;
 };
 
 export type WRInputGroupTypes = InputsTypes & {
   register: UseFormRegister<Brands>;
-  handleKeyUp: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  error: string | undefined;
 };
 
 

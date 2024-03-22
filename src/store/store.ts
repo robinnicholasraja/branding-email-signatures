@@ -65,11 +65,13 @@ type SignatureStoreTypes = {
   isFormValid: boolean;
   isLinkedIn: boolean;
   region: string;
+  inputFocus: boolean;
   data: Brands;
-  setIsFormValid: (isFormValid: boolean) => void;
-  setData: (data: Brands) => void;
   setIsLinkedIn: (isLinkedIn: boolean) => void;
   setRegion: (region: string) => void;
+  setIsFormValid: (isFormValid: boolean) => void;
+  setInputFocus: (inputFocus: boolean) => void;
+  setData: (data: Brands) => void;
 };
 
 export const useSignatureStore = create<SignatureStoreTypes>()((set) => ({
@@ -85,8 +87,10 @@ export const useSignatureStore = create<SignatureStoreTypes>()((set) => ({
   isLinkedIn: false,
   isFormValid: false,
   region: "us",
+  inputFocus: true,
   setIsFormValid: (isFormValid: boolean) => set(() => ({ isFormValid })),
   setIsLinkedIn: (isLinkedIn: boolean) => set(() => ({ isLinkedIn })),
   setData: (data: Brands) => set(() => ({ data })),
   setRegion: (region: string) => set(() => ({ region })),
+  setInputFocus: (inputFocus: boolean) => set(() => ({ inputFocus })),
 }));

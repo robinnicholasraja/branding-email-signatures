@@ -18,7 +18,9 @@ import { SFInputs } from "@/FormFields/SF";
 import Link from "next/link";
 
 const Brand = ({ params }: { params: { brand: string } }) => {
-  const { data, setData, region } = useSignatureStore((state) => state);
+  const { data, setData, region, setInputFocus } = useSignatureStore(
+    (state) => state
+  );
   const [pageData, setPageData] = useState({
     htmlContent: "" as string,
     inputFields: [] as InputTypes[],
@@ -67,6 +69,25 @@ const Brand = ({ params }: { params: { brand: string } }) => {
     setPageData({ htmlContent, inputFields: inputFields as InputTypes[] });
   }, [region, data]);
 
+  /**
+   * Handles the click event when it occurs outside of any input element.
+   *
+   * @param {MouseEvent} event - The click event.
+   * @return {void} This function does not return anything.
+   */
+  const handleOutsideClick = (event: MouseEvent): void => {
+    setInputFocus(false);
+  };
+  useEffect(() => {
+    document.addEventListener("click", (event) => {
+      if (event.target instanceof HTMLInputElement) setInputFocus(true);
+      else handleOutsideClick(event)
+    });
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
+
   return (
     <section>
       <div className="py-4">
@@ -82,7 +103,10 @@ const Brand = ({ params }: { params: { brand: string } }) => {
       </div>
       <div className="container mx-auto pb-10">
         <div className="bg-gray-100 text-slate-900 p-8 rounded-lg w-full">
-          <div className="flex justify-between gap-10 relative">
+          <div
+            className="flex justify-between gap-10 relative"
+            onClick={() => setInputFocus(false)}
+          >
             <div className="min-w-[600px]">
               <h2 className="mb-8 text-2xl font-bold">
                 {params.brand.toUpperCase()} Signature Form
