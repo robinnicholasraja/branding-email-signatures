@@ -18,9 +18,7 @@ import { SFInputs } from "@/FormFields/SF";
 import Link from "next/link";
 
 const Brand = ({ params }: { params: { brand: string } }) => {
-  const { data, setData, region } = useSignatureStore(
-    (state) => state
-  );
+  const { data, setData, region } = useSignatureStore((state) => state);
   const [pageData, setPageData] = useState({
     htmlContent: "" as string,
     inputFields: [] as InputTypes[],
@@ -54,9 +52,10 @@ const Brand = ({ params }: { params: { brand: string } }) => {
 
     const signatureWithRegion =
       SignatureHtml.find(
-        (item) => item?.region && item?.brandName === brand
+        (item) =>
+          item?.region && item?.region === region && item?.brandName === brand
       ) || SignatureHtml.find((item) => item?.brandName === brand);
-        
+
     return {
       htmlContent: signatureWithRegion?.data as string,
       inputFields: signatureWithRegion?.inputFields,
@@ -66,31 +65,32 @@ const Brand = ({ params }: { params: { brand: string } }) => {
   useEffect(() => {
     const { htmlContent, inputFields } = getSignatureHtml(params.brand);
     setPageData({ htmlContent, inputFields: inputFields as InputTypes[] });
-  }, [region,data]);
+  }, [region, data]);
 
   return (
     <section>
-      <div className="flex p-4 relative mb-4">
+      <div className="py-4">
         <Link
           href="/"
           className="inline-block px-4 py-2 bg-sky-500 text-slate-100 rounded-lg absolute top-2 left-2"
         >
           Back to homepage
         </Link>
-        <h1 className="text-center flex-1 text-3xl">
+        <h1 className="text-center flex-1 text-3xl font-bold">
           Email signature generator
         </h1>
       </div>
       <div className="container mx-auto pb-10">
-        <div className="bg-gray-900 text-slate-100 p-8 rounded-lg w-full">
-          <div>
-            <h2 className="mb-8 text-2xl">
-              {params.brand.toUpperCase()} Signature Form
-            </h2>
-          </div>
+        <div className="bg-gray-100 text-slate-900 p-8 rounded-lg w-full">
           <div className="flex justify-between gap-10 relative">
-            <div className="w-1/2">
-              <Form content={pageData.htmlContent} inputFields={pageData.inputFields} />
+            <div className="min-w-[600px]">
+              <h2 className="mb-8 text-2xl font-bold">
+                {params.brand.toUpperCase()} Signature Form
+              </h2>
+              <Form
+                content={pageData.htmlContent}
+                inputFields={pageData.inputFields}
+              />
             </div>
             <SignaturePreview content={pageData.htmlContent} />
           </div>

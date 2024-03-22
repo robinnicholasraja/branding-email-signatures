@@ -17,9 +17,8 @@ const SignatureForm = ({
   inputFields: InputTypes[] | undefined;
 }) => {
   // Global state and setter method from the store
-  const { data, setData, region, setRegion } = useSignatureStore(
-    (state) => state
-  );
+  const { data, setData, region, setRegion, isFormValid, setIsFormValid } =
+    useSignatureStore((state) => state);
 
   const brandsWithRegions = ["sf", "ac", "lex", "af"];
 
@@ -46,8 +45,7 @@ const SignatureForm = ({
   const {
     register, // register's input fields to the form
     handleSubmit, // handles form submission automatically with onSubmit
-    formState: { errors }, // Gives access to the errors object
-    reset, // resets the form
+    formState: { errors, isValid }, // Gives access to the errors object
     setValue, // sets the value of the input manually
     watch, // watches the value of the input
   } = useForm({
@@ -64,6 +62,10 @@ const SignatureForm = ({
     );
   }, [region]);
 
+  useEffect(() => {
+    setIsFormValid(true);
+  }, []);
+
   /**
    * Handles the keyup event for an input field, updating the field value
    * and updating the global state with the latest form data.
@@ -77,11 +79,9 @@ const SignatureForm = ({
   ) => {
     // Update the field value on keyup
     const updatedValue = event.currentTarget.value; // Get the updated value from the input field
-    setValue(
-      registerName,
-      updatedValue
-    ); // Update the value of the input field in the form state
+    setValue(registerName, updatedValue); // Update the value of the input field in the form state
     setData(watchData); // Update the global state with the latest form data
+    setIsFormValid(isValid);
   };
 
   /**
@@ -165,13 +165,18 @@ const SignatureForm = ({
               register={register}
               registerName={registerName}
               error={errors?.[registerName as keyof typeof errors]?.message}
-              handleKeyUp={(e) => handleKeyUp(e, registerName as RegisterNameTypes)}
+              handleKeyUp={(e) =>
+                handleKeyUp(e, registerName as RegisterNameTypes)
+              }
             />
           );
         })}
         {brandsWithRegions.includes(index) ? (
           <div className="flex gap-x-6">
-            <label htmlFor="US">
+            <label
+              htmlFor="US"
+              className="flex gap-x-2 border border-slate-400 has-[:checked]:border-green-400 has-[:checked]:border-2 rounded-lg pl-6 pr-2 py-2 cursor-pointer relative"
+            >
               US
               <input
                 type="radio"
@@ -180,9 +185,13 @@ const SignatureForm = ({
                 name="region"
                 checked={region === "us"}
                 onChange={() => setRegion("us")}
+                className="appearance-none before:rounded-full before:bg-slate-400 before:checked:bg-green-400 before:absolute before:w-2 before:h-2 before:top-1/2 before:left-2 before:-translate-y-1/2"
               />
             </label>
-            <label htmlFor="CA">
+            <label
+              htmlFor="CA"
+              className="flex gap-x-2 border border-slate-400 has-[:checked]:border-green-400 has-[:checked]:border-2 rounded-lg pl-6 pr-2 py-2 cursor-pointer relative"
+            >
               CA
               <input
                 type="radio"
@@ -191,6 +200,7 @@ const SignatureForm = ({
                 name="region"
                 checked={region === "ca"}
                 onChange={() => setRegion("ca")}
+                className="appearance-none before:rounded-full before:bg-slate-400 before:checked:bg-green-400 before:absolute before:w-2 before:h-2 before:top-1/2 before:left-2 before:-translate-y-1/2"
               />
             </label>
           </div>

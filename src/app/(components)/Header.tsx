@@ -5,13 +5,13 @@ const Header = () => {
     <nav className="flex flex-wrap gap-3 justify-center py-4 bg-slate-800">
       <Link
         href="/signatures/wr"
-        className="bg-green-500 hover:bg-green-700 px-5 py-2 text-sm leading-5 rounded-full font-semibold text-white"
+        className="bg-sky-500 hover:bg-sky-700 px-5 py-2 text-sm leading-5 rounded-full font-semibold text-white"
       >
         Wellreceived
       </Link>
       <Link
         href="/signatures/sf"
-        className="bg-black hover:bg-slate-900 px-5 py-2 text-sm leading-5 rounded-full font-semibold text-white"
+        className="bg-sky-500 hover:bg-sky-700 px-5 py-2 text-sm leading-5 rounded-full font-semibold text-white"
       >
         Serviceforge CA
       </Link>
