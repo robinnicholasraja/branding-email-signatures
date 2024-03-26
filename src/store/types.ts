@@ -1,24 +1,32 @@
 import { UseFormRegister } from "react-hook-form";
 
-export type RegisterNameTypes = "image" | "position" | "name" | "email" | "phone" | "bookingLink";
+export type RegisterNameTypes =
+  | "image"
+  | "position"
+  | "name"
+  | "email"
+  | "phone"
+  | "bookingLink";
 
 export type InputsTypes = {
   label: string;
   type: string;
   registerName: RegisterNameTypes;
+};
+
+export type InputInteractiveTypes = {
   handleKeyUp: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   onFocus: (e: React.FocusEvent<HTMLInputElement>) => void;
   error: string | undefined;
 };
 
-export type SFCAInputGroupTypes = InputsTypes & {
+export type SFCAInputGroupTypes = InputsTypes & InputInteractiveTypes & {
   register: UseFormRegister<Brands>;
 };
 
-export type WRInputGroupTypes = InputsTypes & {
+export type WRInputGroupTypes = InputsTypes & InputInteractiveTypes & {
   register: UseFormRegister<Brands>;
 };
-
 
 export type Data = {
   name: string;
@@ -30,9 +38,9 @@ export type Data = {
 };
 
 export type WR = Data & {
-  source: string
-}
+  source: string;
+};
 
 export type InputTypes = InputsTypes;
 export type InputGroupTypes = SFCAInputGroupTypes | WRInputGroupTypes;
-export type Brands = Data | WR
+export type Brands = Data | WR;
