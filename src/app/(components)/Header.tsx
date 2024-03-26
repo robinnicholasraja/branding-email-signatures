@@ -39,9 +39,13 @@ const Header = () => {
         <input className="hidden" type="checkbox" id="menu-toggle" />
 
         <div
-          className="hidden md:flex md:items-center md:w-auto w-full"
+          className="hidden md:flex md:items-center md:w-auto w-full md:gap-x-8"
           id="menu"
         >
+          <Link href="/signatures/htmleditor" className="navlink">
+            <span className="box">Html Editor</span>
+          </Link>
+
           <nav>
             <ul className="md:flex items-center justify-between text-base text-gray-700 pt-4 md:pt-0">
               <li className="relative inline-block text-left">

@@ -1,7 +1,9 @@
 import { useCallback, useState } from "react";
 
 export const formatPhoneNumber = (phoneNumber: string) => {
-  return phoneNumber.replace(/[-\s+]/g, "");
+  // Remove any non-digit characters, including hyphens, spaces, and plus signs
+  // Also remove circular brackets, square brackets, and curly brackets
+  return phoneNumber.replace(/[-\s+()\[\]{}]/g, "");
 };
 
 export const usernameWordSplit = (name: string) => {
