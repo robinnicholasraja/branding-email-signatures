@@ -1,16 +1,5 @@
-type Details = {
-  name: string;
-  position: string;
-  email: string;
-  phone: string;
-  bookingLink?: string;
-  imageUrl: string;
-  source: string;
-};
-
-const formatPhoneNumber = (phoneNumber: string) => {
-  return phoneNumber.replace(/-/g, "");
-};
+import { WR } from "@/store/types";
+import {formatPhoneNumber} from "../../../util";
 
 const getReviewContent = (source: string) => {
   switch (source) {
@@ -35,25 +24,25 @@ const WellReceivedSignatures = ({
   email,
   phone,
   bookingLink,
-  imageUrl,
+  image,
   source,
-}: Details):string => {
+}: WR): string => {
   const reviewContent = getReviewContent(source);
-  let image;
+  let imageSrc;
   if (source === "wecare") {
-    image = `<img src="https://storage.googleapis.com/email_signatures/wellreceived/images/we-care-logo.png" width="71" height="14" style="width: 71px; height: 14px;">`;
+    imageSrc = `<img src="https://storage.googleapis.com/email_signatures/wellreceived/images/we-care-logo.png" width="71" height="14" style="width: 71px; height: 14px;">`;
   } else {
-    image = `<img alt="WellReceived logo" height=30 src=https://storage.googleapis.com/email_signatures/wellreceived/images/wr-logo.png style=font-size:16px;color:#0b4751;width:72px;height:30px width=72>`;
+    imageSrc = `<img alt="WellReceived logo" height=30 src=https://storage.googleapis.com/email_signatures/wellreceived/images/wr-logo.png style=font-size:16px;color:#0b4751;width:72px;height:30px width=72>`;
   }
 
   const formattedPhone = formatPhoneNumber(phone);
 
   return `<html><head>
-  <title>${name} - WellReceived</title><meta charset="UTF-8"></head><body style="font-family:'Inter', Arial, Helvetica, sans-serif; margin:0px; padding:0px; background:#FFFFFF;-webkit-font-smoothing: antialiased;" data-new-gr-c-s-check-loaded="14.1157.0" data-gr-ext-installed=""><table bgcolor=#F9FAFB border=0 cellpadding=0 cellspacing=0 style=font-family:Inter,Arial,Helvetica,sans-serif;background-color:#f9fafb;width:450px;min-width:450px;max-width:450px;margin:0;border-radius:40px;box-sizing:border-box;border-collapse:collapse><tr><td valign="top" style="padding:30px 0 30px 30px;width:72px;font-size:0"><img alt="${name}" height=72 src="${imageUrl}" style=font-size:16px;color:#0b4751;width:72px;height:72px;display:inline-block width=72><a href=https://www.wellreceived.com/${
+  <title>${name} - WellReceived</title><meta charset="UTF-8"></head><body style="font-family:'Inter', Arial, Helvetica, sans-serif; margin:0px; padding:0px; background:#FFFFFF;-webkit-font-smoothing: antialiased;" data-new-gr-c-s-check-loaded="14.1157.0" data-gr-ext-installed=""><table bgcolor=#F9FAFB border=0 cellpadding=0 cellspacing=0 style=font-family:Inter,Arial,Helvetica,sans-serif;background-color:#f9fafb;width:450px;min-width:450px;max-width:450px;margin:0;border-radius:40px;box-sizing:border-box;border-collapse:collapse><tr><td valign="top" style="padding:30px 0 30px 30px;width:72px;font-size:0"><img alt="${name}" height=72 src="${image}" style=font-size:16px;color:#0b4751;width:72px;height:72px;display:inline-block width=72><a href=https://www.wellreceived.com/${
     source === "wecare" ? "why/we-care" : ""
   } style=box-sizing:border-box;display:inline-block;color:#0b4751;font-size:16px;margin-top:${
     source === "wecare" ? `94px` : `64px`
-  } target=_blank>${image}</a>
+  } target=_blank>${imageSrc}</a>
   </td><td style="padding:27px 26px 30px 64px"><p style="font-family:Inter,Arial,Helvetica,sans-serif;font-weight:500;color:#0b4751;font-size:24px;margin:0 0 2px;line-height:28px;letter-spacing:-1px">${name}</p><p style="font-family:Inter,Arial,Helvetica,sans-serif;color:#0b4751;font-size:10px;margin:0 0 20px 0;font-weight:500;line-height:12px">${position}</p>  <p style="margin:0 0 2px"><img alt="Mail icon" height=18 src=https://storage.googleapis.com/email_signatures/wellreceived/images/mail-icon.png style=width:18px;height:18px;margin-right:6px;font-size:16px;color:#0b4751;vertical-align:middle width=18><a href=mailto:${email} style=font-family:Inter,Arial,Helvetica,sans-serif;color:#616666;font-size:12px;font-weight:500;line-height:20px;cursor:pointer;letter-spacing:-.12px;text-decoration-line:underline>${email}</a></p><p style="margin:0 0 ${
     bookingLink ? `2px` : `53px`
   }"><img alt="Call icon" height=18 src=https://storage.googleapis.com/email_signatures/wellreceived/images/call-icon.png style=width:18px;height:18px;margin-right:6px;font-size:16px;color:#0b4751;vertical-align:middle width=18><a href=tel:+${formattedPhone} style=font-family:Inter,Arial,Helvetica,sans-serif;color:#616666;font-size:12px;font-weight:500;line-height:20px;cursor:pointer;letter-spacing:-.12px;text-decoration-line:underline target=_blank>${phone}</a></p>${
