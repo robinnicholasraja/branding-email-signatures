@@ -81,7 +81,7 @@ const Brand = ({ params }: { params: { brand: string } }) => {
   useEffect(() => {
     document.addEventListener("click", (event) => {
       if (event.target instanceof HTMLInputElement) setInputFocus(true);
-      else handleOutsideClick(event)
+      else handleOutsideClick(event);
     });
     return () => {
       document.removeEventListener("click", handleOutsideClick);
@@ -107,7 +107,7 @@ const Brand = ({ params }: { params: { brand: string } }) => {
             className="flex justify-between gap-10 relative"
             onClick={() => setInputFocus(false)}
           >
-            <div className="min-w-[600px]">
+            <div className="max-w-lg">
               <h2 className="mb-8 text-2xl font-bold">
                 {params.brand.toUpperCase()} Signature Form
               </h2>
